@@ -1,14 +1,19 @@
 import { expect, it } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
+const x = (a: string, b: string) => {
+  return a + b;
+};
+type Z = Parameters<typeof x>;
+
 const makeSafe =
-  (func: unknown) =>
-  (
-    ...args: unknown
+  <T extends (...args: any) => any>(func: T) =>
+  <K>(
+    ...args: K[]
   ):
     | {
         type: "success";
-        result: unknown;
+        result: ReturnType<T>;
       }
     | {
         type: "failure";
@@ -52,7 +57,7 @@ it("Should return the result with a { type: 'success' } on a successful call", (
             error: Error;
           }
       >
-    >,
+    >
   ];
 });
 
@@ -84,7 +89,7 @@ it("Should return the error on a thrown call", () => {
             error: Error;
           }
       >
-    >,
+    >
   ];
 });
 
