@@ -7,9 +7,9 @@ const x = (a: string, b: string) => {
 type Z = Parameters<typeof x>;
 
 const makeSafe =
-  <T extends (...args: any) => any>(func: T) =>
-  <K>(
-    ...args: K[]
+  <T extends (...args: any[]) => any>(func: T) =>
+  (
+    ...args: Parameters<T>
   ):
     | {
         type: "success";
